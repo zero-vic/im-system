@@ -2,6 +2,7 @@ package com.hy.im.tcp.server;
 
 import com.hy.im.codec.config.BootstrapConfig;
 import com.hy.im.codec.decoder.MessageDecoder;
+import com.hy.im.codec.encoder.MessageEncoder;
 import com.hy.im.tcp.handler.HeartBeatHandler;
 import com.hy.im.tcp.handler.NettyServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -50,9 +51,10 @@ public class ImServer {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new MessageDecoder());
-                        pipeline.addLast(new IdleStateHandler(0,0,1));
+                        pipeline.addLast(new MessageEncoder());
+//                        pipeline.addLast(new IdleStateHandler(0,0,1));
                         pipeline.addLast(new HeartBeatHandler(config.getHeartBeatTime()));
-                        pipeline.addLast(new NettyServerHandler());
+                        pipeline.addLast(new NettyServerHandler(config.getBrokerId()));
                     }
                 });
     }

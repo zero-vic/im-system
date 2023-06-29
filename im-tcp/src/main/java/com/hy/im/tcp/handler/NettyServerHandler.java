@@ -9,6 +9,7 @@ import com.hy.im.common.constant.Constants;
 import com.hy.im.common.constant.RedisConstants;
 import com.hy.im.common.enums.ImConnectStatusEnum;
 import com.hy.im.common.enums.command.SystemCommand;
+import com.hy.im.common.model.UserClientDto;
 import com.hy.im.common.model.UserSession;
 import com.hy.im.tcp.redis.RedisManager;
 import com.hy.im.tcp.utils.SessionSocketHolder;
@@ -18,9 +19,12 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 import org.redisson.api.RMap;
+import org.redisson.api.RTopic;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.InetAddress;
 
 /**
  * @ClassName NettyServerHandler
@@ -32,7 +36,11 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
 
     private final static Logger log = LoggerFactory.getLogger(NettyServerHandler.class);
 
+    private Integer brokerId;
 
+    public NettyServerHandler(Integer brokerId){
+        this.brokerId = brokerId;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
@@ -45,11 +53,13 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
             Integer appId = msg.getMessageHeader().getAppId();
             Integer clientType = msg.getMessageHeader().getClientType();
             String imei = msg.getMessageHeader().getImei();
+            String clientImei = clientType+imei;
             //为channel设置属性
             ctx.channel().attr(AttributeKey.valueOf(Constants.USER_ID)).set(userId);
             ctx.channel().attr(AttributeKey.valueOf(Constants.APP_ID)).set(appId);
             ctx.channel().attr(AttributeKey.valueOf(Constants.CLIENT_TYPE)).set(clientType);
             ctx.channel().attr(AttributeKey.valueOf(Constants.IMEI)).set(imei);
+            ctx.channel().attr(AttributeKey.valueOf(Constants.CLIENT_IMEI)).set(clientImei);
 
             //存session
             UserSession userSession = new UserSession();
@@ -57,8 +67,15 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
             userSession.setClientType(msg.getMessageHeader().getClientType());
             userSession.setUserId(loginPack.getUserId());
             userSession.setConnectState(ImConnectStatusEnum.ONLINE_STATUS.getCode());
-//            userSession.setBrokerId(brokerId);
+            userSession.setBrokerId(brokerId);
             userSession.setImei(msg.getMessageHeader().getImei());
+            try {
+                InetAddress localHost = InetAddress.getLocalHost();
+                userSession.setBrokerHost(localHost.getHostAddress());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
 
             // 存到redis
 
@@ -66,9 +83,18 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
             String userSessionKey = appId + RedisConstants.USER_SESSION_CONSTANTS + userId;
             RMap<String, String> map = redissonClient.getMap(userSessionKey);
             map.put(clientType+":" + imei, JSONObject.toJSONString(userSession));
+            // 使用redis的发布订阅模式来通知用户上线, 实现多端登陆
+            UserClientDto dto = new UserClientDto();
+            dto.setAppId(appId);
+            dto.setClientType(clientType);
+            dto.setUserId(userId);
+            dto.setImei(imei);
+            RTopic topic = redissonClient.getTopic(RedisConstants.USER_LOGIN_CHANNEL);
+            topic.publish(JSON.toJSONString(dto));
+
 
             // 存channel
-            SessionSocketHolder.put(appId,userId,clientType, (NioSocketChannel) ctx.channel());
+            SessionSocketHolder.put(appId,userId,clientType, (NioSocketChannel) ctx.channel(),imei);
 
         } else if (command == SystemCommand.LOGOUT.getCommand()) {
             // 登出

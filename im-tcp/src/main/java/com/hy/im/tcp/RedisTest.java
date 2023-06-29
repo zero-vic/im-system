@@ -8,7 +8,7 @@ import org.redisson.config.Config;
 
 /**
  * @ClassName RedisTest
- * description:
+ * description: redission 测试类
  * yao create 2023年06月28日
  * version: 1.0
  */

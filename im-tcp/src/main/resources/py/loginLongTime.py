@@ -34,7 +34,7 @@ t1.start()
 command = 0x2328
 
 version = 2
-clientType = 5
+clientType = 2
 print(clientType)
 messageType = 0x0
 appId = 10000

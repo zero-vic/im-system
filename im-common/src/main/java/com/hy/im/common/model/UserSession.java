@@ -34,9 +34,14 @@ public class UserSession {
      * 连接状态 1=在线 2=离线
      */
     private Integer connectState;
-
+    /**
+     * 区分服务
+     * brokerId、brokerHost主要是用来处理分布式情况
+     */
     private Integer brokerId;
-
+    /**
+     * 服务器ip
+     */
     private String brokerHost;
 
     private String imei;

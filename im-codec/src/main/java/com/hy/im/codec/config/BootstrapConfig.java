@@ -62,7 +62,7 @@ public class BootstrapConfig {
         private ZkConfig zkConfig;
 
         /**
-         * brokerId
+         * brokerId 区分服务
          */
         private Integer brokerId;
 

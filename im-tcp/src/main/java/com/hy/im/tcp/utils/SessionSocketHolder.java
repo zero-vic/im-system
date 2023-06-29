@@ -13,7 +13,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,27 +28,27 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SessionSocketHolder {
     private static final Map<UserClientDto, NioSocketChannel> CHANNEL_MAP = new ConcurrentHashMap<>();
 
-    public static void put(Integer appId,String userId,Integer clientType,NioSocketChannel channel){
+    public static void put(Integer appId,String userId,Integer clientType,NioSocketChannel channel,String imei){
         UserClientDto dto = new UserClientDto();
-//        dto.setImei(imei);
+        dto.setImei(imei);
         dto.setAppId(appId);
         dto.setClientType(clientType);
         dto.setUserId(userId);
         CHANNEL_MAP.put(dto,channel);
     }
 
-    public static NioSocketChannel get(Integer appId,String userId,Integer clientType){
+    public static NioSocketChannel get(Integer appId,String userId,Integer clientType,String imei){
         UserClientDto dto = new UserClientDto();
-//        dto.setImei(imei);
+        dto.setImei(imei);
         dto.setAppId(appId);
         dto.setClientType(clientType);
         dto.setUserId(userId);
         return CHANNEL_MAP.get(dto);
     }
 
-    public static void remove(Integer appId,String userId,Integer clientType){
+    public static void remove(Integer appId,String userId,Integer clientType,String imei){
         UserClientDto dto = new UserClientDto();
-//        dto.setImei(imei);
+        dto.setImei(imei);
         dto.setAppId(appId);
         dto.setClientType(clientType);
         dto.setUserId(userId);
@@ -59,6 +62,23 @@ public class SessionSocketHolder {
     }
 
     /**
+     * 跟据 appId 和 userId 获取 NioSocketChannel 集合
+     * @param appId
+     * @param userId
+     * @return
+     */
+    public static List<NioSocketChannel> get(Integer appId,String userId){
+        Set<UserClientDto> userClientDtos = CHANNEL_MAP.keySet();
+        List<NioSocketChannel> channels = new ArrayList<>();
+        userClientDtos.forEach(dto -> {
+            if(dto.getAppId().equals(appId)  && dto.getUserId().equals(userId)){
+                channels.add(CHANNEL_MAP.get(dto));
+            }
+        });
+        return channels;
+    }
+
+    /**
      * 登出session处理
      * @param channel
      */
@@ -68,7 +88,7 @@ public class SessionSocketHolder {
         Integer clientType = (Integer) channel.attr(AttributeKey.valueOf(Constants.CLIENT_TYPE)).get();
         String imei = (String) channel.attr(AttributeKey.valueOf(Constants.IMEI)).get();
 
-        SessionSocketHolder.remove(appId,userId,clientType);
+        SessionSocketHolder.remove(appId,userId,clientType,imei);
         RedissonClient redissonClient = RedisManager.getRedissonClient();
         String key = appId + RedisConstants.USER_SESSION_CONSTANTS + userId;
         RMap<Object, Object> map = redissonClient.getMap(key);
@@ -98,7 +118,7 @@ public class SessionSocketHolder {
         Integer clientType = (Integer) channel.attr(AttributeKey.valueOf(Constants.CLIENT_TYPE)).get();
         String imei = (String) channel.attr(AttributeKey.valueOf(Constants.IMEI)).get();
 
-        SessionSocketHolder.remove(appId,userId,clientType);
+        SessionSocketHolder.remove(appId,userId,clientType,imei);
         RedissonClient redissonClient = RedisManager.getRedissonClient();
         String key = appId + RedisConstants.USER_SESSION_CONSTANTS + userId;
         RMap<String, String> map = redissonClient.getMap(key);

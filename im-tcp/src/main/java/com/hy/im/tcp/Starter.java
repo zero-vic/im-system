@@ -2,14 +2,20 @@ package com.hy.im.tcp;
 
 import com.hy.im.codec.config.BootstrapConfig;
 import com.hy.im.tcp.redis.RedisManager;
+import com.hy.im.tcp.register.RegistryZK;
+import com.hy.im.tcp.register.ZKit;
 import com.hy.im.tcp.server.ImServer;
 import com.hy.im.tcp.server.ImWebSocketServer;
+import com.hy.im.tcp.utils.MqFactory;
+import org.I0Itec.zkclient.ZkClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * @ClassName Starter
@@ -48,9 +54,24 @@ public class Starter {
             new ImWebSocketServer(bootstrapConfig.getIm()).start();
             // 初始化redis
             RedisManager.init(bootstrapConfig);
+            // 初始化rabbitmq
+            MqFactory.init(bootstrapConfig.getIm().getRabbitmq());
+            // 初始化zookeeper
+            registerZk(bootstrapConfig);
+
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(500);
         }
+    }
+
+    public static void registerZk(BootstrapConfig config) throws UnknownHostException {
+        String hostAddress = InetAddress.getLocalHost().getHostAddress();
+        ZkClient zkClient = new ZkClient(config.getIm().getZkConfig().getZkAddr(),
+                config.getIm().getZkConfig().getZkConnectTimeOut());
+        ZKit zKit = new ZKit(zkClient);
+        RegistryZK registryZK = new RegistryZK(zKit, hostAddress, config.getIm());
+        Thread thread = new Thread(registryZK);
+        thread.start();
     }
 }
