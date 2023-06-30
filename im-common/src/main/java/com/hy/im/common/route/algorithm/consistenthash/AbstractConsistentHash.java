@@ -55,7 +55,7 @@ public abstract class AbstractConsistentHash {
 
 
     /**
-     * hash 运算
+     * hash 运算  xxl-job的
      * @param value
      * @return
      */

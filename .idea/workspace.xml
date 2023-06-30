@@ -4,11 +4,75 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7217f00-6d4d-4756-89b0-1ab35acb832a" name="Changes" comment="" />
+    <list default="true" id="c7217f00-6d4d-4756-89b0-1ab35acb832a" name="Changes" comment="update code">
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/conversation/DeleteConversationPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/conversation/UpdateConversationPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/AddFriendBlackPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/AddFriendGroupMemberPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/AddFriendGroupPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/AddFriendPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/ApproverFriendRequestPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/DeleteAllFriendPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/DeleteBlackPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/DeleteFriendGroupMemberPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/DeleteFriendGroupPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/DeleteFriendPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/ReadAllFriendRequestPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/friendship/UpdateFriendPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/message/ChatMessageAck.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/message/MessageReadedPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/message/MessageReciveServerAckPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/message/RecallMessageNotifyPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/user/LoginAckPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/user/UserCustomStatusChangeNotifyPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/user/UserModifyPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-codec/src/main/java/com/hy/im/codec/pack/user/UserStatusChangeNotifyPack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/config/GlobalHttpClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/enums/BaseErrorCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/enums/RouteHashMethodEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/enums/command/CommandType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/enums/command/ConversationEventCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/enums/command/FriendshipEventCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/enums/command/GroupEventCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/enums/command/MediaEventCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/enums/command/MessageCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/enums/command/UserEventCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/model/ClientInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/model/RequestBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/response/ResponseVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/utils/HttpRequestUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/utils/RouteInfoParseUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/main/java/com/hy/im/service/config/BeanConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/main/java/com/hy/im/service/config/RedisConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/main/java/com/hy/im/service/user/controller/ImUserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/main/java/com/hy/im/service/user/model/LoginReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/main/java/com/hy/im/service/util/CallbackService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/main/java/com/hy/im/service/util/GroupMessageProducer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/main/java/com/hy/im/service/util/MessageProducer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/main/java/com/hy/im/service/util/UserSessionUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/main/java/com/hy/im/service/util/ZKit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-service/src/test/java/com/hy/im/ImTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/im-tcp/src/main/java/com/hy/im/tcp/reciver/process/BaseProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/route/algorithm/consistenthash/AbstractConsistentHash.java" beforeDir="false" afterPath="$PROJECT_DIR$/im-common/src/main/java/com/hy/im/common/route/algorithm/consistenthash/AbstractConsistentHash.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/im-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/im-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/im-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/im-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/im-tcp/src/main/java/com/hy/im/tcp/register/RegistryZK.java" beforeDir="false" afterPath="$PROJECT_DIR$/im-tcp/src/main/java/com/hy/im/tcp/register/RegistryZK.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -22,21 +86,155 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2RmZnnAYKLHwecVaruB7Zop5mp6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "1.8",
-    "last_opened_file_path": "F:/aliDownload/慕课网-Netty+SpringBoot开发即时通讯系统  无秘 15章 完结/资料/imooc-626代码/l-im-master/l-im",
-    "settings.editor.selected.configurable": "MavenSettings"
+    "last_opened_file_path": "F:/IDEA-PROJECT/im-system/im-codec/src/main/java/com/hy/im/codec/pack",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "spring.configuration.checksum": "660f1defc080d3c5be43d948d21b5328"
   }
 }]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\IDEA-PROJECT\im-system\im-codec\src\main\java\com\hy\im\codec\pack" />
+      <recent name="F:\IDEA-PROJECT\im-system\im-common\src\main\java\com\hy\im\common\enums\command" />
+      <recent name="F:\IDEA-PROJECT\im-system\im-codec\src\main\java\com\hy\im\codec\pack\user" />
+      <recent name="F:\IDEA-PROJECT\im-system\im-service\src\main\resources" />
+      <recent name="F:\IDEA-PROJECT\im-system\im-tcp\src\main\resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.hy.im.common.enums.command" />
+      <recent name="com.hy.im.common.enums" />
+      <recent name="com.hy.im.common.exception" />
+      <recent name="com.hy.im.common.utils" />
+      <recent name="com.hy.im.service.util" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.ImTest">
+    <configuration name="RedisTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.hy.im.tcp.RedisTest" />
+      <module name="im-tcp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hy.im.tcp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.hy.im.tcp.Starter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.hy.im.tcp.Starter" />
+      <module name="im-tcp" />
+      <option name="PROGRAM_PARAMETERS" value="F:\IDEA-PROJECT\im-system\im-tcp\src\main\resources\config.yml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hy.im.tcp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.hy.im.tcp.Starter2" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.hy.im.tcp.Starter" />
+      <module name="im-tcp" />
+      <option name="PROGRAM_PARAMETERS" value="F:\IDEA-PROJECT\im-system\im-tcp\src\main\resources\config2.yml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hy.im.tcp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="im-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hy.im.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.hy.im" />
+      <option name="MAIN_CLASS_NAME" value="com.hy.im.ImTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImTest.test2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="im-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hy.im.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.hy.im" />
+      <option name="MAIN_CLASS_NAME" value="com.hy.im.ImTest" />
+      <option name="METHOD_NAME" value="test2" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="im-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hy.im.service.ImApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hy.im.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.com.hy.im.tcp.Starter2" />
+      <item itemvalue="Application.RedisTest" />
+      <item itemvalue="Application.com.hy.im.tcp.Starter" />
+      <item itemvalue="JUnit.ImTest" />
+      <item itemvalue="JUnit.ImTest.test2" />
+      <item itemvalue="Spring Boot.ImApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ImTest" />
+        <item itemvalue="JUnit.ImTest.test2" />
+        <item itemvalue="Spring Boot.ImApplication" />
+        <item itemvalue="Application.com.hy.im.tcp.Starter" />
+        <item itemvalue="Application.RedisTest" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -45,11 +243,60 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1687857388506</updated>
-      <workItem from="1687857389880" duration="1470000" />
+      <workItem from="1687857389880" duration="2079000" />
+      <workItem from="1687912471978" duration="26036000" />
+      <workItem from="1687998086194" duration="25650000" />
+      <workItem from="1688085038266" duration="21433000" />
     </task>
+    <task id="LOCAL-00001" summary="update code">
+      <created>1687947708033</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1687947708033</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update code">
+      <created>1688033507323</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1688033507323</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update code" />
+    <option name="LAST_COMMIT_MESSAGE" value="update code" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/im-tcp/src/main/java/com/hy/im/tcp/handler/NettyServerHandler.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/im-tcp/src/main/java/com/hy/im/tcp/handler/HeartBeatHandler.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

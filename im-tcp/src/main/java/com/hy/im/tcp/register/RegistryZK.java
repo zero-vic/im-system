@@ -29,11 +29,11 @@ public class RegistryZK implements Runnable{
     @Override
     public void run() {
         zKit.createRootNode();
-        String tcpPath = Constants.IM_CORE_ZKROOT+Constants.IM_CORE_ZKROOT_TCP+"/"+ip+tcpConfig.getTcpPort();
+        String tcpPath = Constants.IM_CORE_ZKROOT+Constants.IM_CORE_ZKROOT_TCP+"/"+ip+":"+tcpConfig.getTcpPort();
         zKit.createNode(tcpPath);
         log.info("Registry zookeeper tcpPath success, msg=[{}]", tcpPath);
 
-        String webPath = Constants.IM_CORE_ZKROOT+Constants.IM_CORE_ZKROOT_WEB+"/"+ip+tcpConfig.getWebSocketPort();
+        String webPath = Constants.IM_CORE_ZKROOT+Constants.IM_CORE_ZKROOT_WEB+"/"+ip+":"+tcpConfig.getWebSocketPort();
         zKit.createNode(webPath);
         log.info("Registry zookeeper webPath success, msg=[{}]",webPath);
     }
