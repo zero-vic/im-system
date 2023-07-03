@@ -1,6 +1,10 @@
 package com.hy.im.tcp.reciver;
 
+import com.alibaba.fastjson.JSONObject;
+import com.hy.im.codec.proto.MessagePack;
 import com.hy.im.common.constant.RabbitConstants;
+import com.hy.im.tcp.reciver.process.BaseProcess;
+import com.hy.im.tcp.reciver.process.ProcessFactory;
 import com.hy.im.tcp.utils.MqFactory;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
@@ -30,9 +34,19 @@ public class MessageReceiver {
             channel.basicConsume(RabbitConstants.MESSAGE_SERVICE_2_IM+brokerId,false,new DefaultConsumer(channel){
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-                    // todo 处理消息服务发来的消息
-                    String msg = new String(body);
-                    log.info(msg);
+                    //  处理消息服务发来的消息
+                    try {
+                        String msg = new String(body);
+                        log.info(msg);
+                        MessagePack messagePack = JSONObject.parseObject(msg, MessagePack.class);
+                        BaseProcess massageProcess = ProcessFactory.getMassageProcess(messagePack.getCommand());
+                        massageProcess.process(messagePack);
+                        channel.basicAck(envelope.getDeliveryTag(),false);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        log.error("消息处理异常：{}",e.getMessage());
+                        channel.basicNack(envelope.getDeliveryTag(),false,false);
+                    }
 
                 }
             });

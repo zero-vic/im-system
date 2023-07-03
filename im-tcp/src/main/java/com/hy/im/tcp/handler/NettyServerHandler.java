@@ -11,6 +11,7 @@ import com.hy.im.common.enums.ImConnectStatusEnum;
 import com.hy.im.common.enums.command.SystemCommand;
 import com.hy.im.common.model.UserClientDto;
 import com.hy.im.common.model.UserSession;
+import com.hy.im.tcp.publish.MqMessageProducer;
 import com.hy.im.tcp.redis.RedisManager;
 import com.hy.im.tcp.utils.SessionSocketHolder;
 import io.netty.channel.Channel;
@@ -104,6 +105,9 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
             // 心跳检测 处理
             // 添加读取时间
             ctx.channel().attr(AttributeKey.valueOf(Constants.READ_TIME)).set(System.currentTimeMillis());
+        } else {
+            // 消息发送给逻辑层
+            MqMessageProducer.sendMessage(msg,command);
         }
 
         System.out.println("msg:"+msg.toString());

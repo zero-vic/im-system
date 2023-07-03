@@ -1,8 +1,5 @@
 package com.hy.im.common.enums.command;
 
-/**
- * 好友事件 指令枚举类
- */
 public enum FriendshipEventCommand implements Command {
 
     //添加好友

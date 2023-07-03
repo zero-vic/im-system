@@ -16,13 +16,17 @@ public abstract class BaseProcess {
      */
     public abstract void processBefore();
 
+    /**
+     * 消息处理
+     * @param messagePack
+     */
     public void process(MessagePack messagePack){
         processBefore();
         NioSocketChannel channel = SessionSocketHolder.get(messagePack.getAppId(), messagePack.getToId(), messagePack.getClientType(), messagePack.getImei());
         if(channel!=null){
             channel.writeAndFlush(messagePack);
         }
-        processBefore();
+        processAfter();
 
 
     }

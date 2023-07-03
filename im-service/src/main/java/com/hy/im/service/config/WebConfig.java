@@ -1,0 +1,47 @@
+package com.hy.im.service.config;
+
+import com.hy.im.service.interceptor.GateWayInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+/**
+ * @ClassName WebConfig
+ * description: web 配置类
+ * yao create 2023年07月03日
+ * version: 1.0
+ */
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Autowired
+    GateWayInterceptor gateWayInterceptor;
+
+    /**
+     * 鉴权拦截配置
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(gateWayInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/v1/user/login")
+                .excludePathPatterns("/v1/message/checkSend");
+    }
+
+    /**
+     * 跨域配置
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("*");
+    }
+}
