@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @ClassName MessageReciveServerAckPack
- * description:
+ * description: 服务端发起的ack包
  * yao create 2023年06月28日
  * version: 1.0
  */
@@ -18,6 +18,8 @@ public class MessageReciveServerAckPack {
     private String toId;
 
     private Long messageSequence;
-
+    /**
+     * 是否是服务端发起
+     */
     private Boolean serverSend;
 }

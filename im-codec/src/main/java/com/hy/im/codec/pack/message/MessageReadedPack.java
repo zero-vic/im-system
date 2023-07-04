@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @ClassName MessageReadedPack
- * description:
+ * description: 消息已读pack
  * yao create 2023年06月28日
  * version: 1.0
  */

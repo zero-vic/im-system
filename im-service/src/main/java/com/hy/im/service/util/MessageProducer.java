@@ -15,6 +15,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,13 +80,24 @@ public class MessageProducer {
      * @param data
      * @param appId
      */
-    public void sendToUser(String toId,Command command,Object data,Integer appId){
-        List<UserSession> userSessions = userSessionUtils.getUserSession(appId, toId);
-        if(CollUtil.isNotEmpty(userSessions)){
-            userSessions.forEach(session -> sendPack(toId,command,data,session));
+//    public void sendToUser(String toId,Command command,Object data,Integer appId){
+//        List<UserSession> userSessions = userSessionUtils.getUserSession(appId, toId);
+//        if(CollUtil.isNotEmpty(userSessions)){
+//            userSessions.forEach(session -> sendPack(toId,command,data,session));
+//        }
+//    }
+    public List<ClientInfo> sendToUser(String toId,Command command,Object data,Integer appId){
+        List<UserSession> userSession
+                = userSessionUtils.getUserSession(appId, toId);
+        List<ClientInfo> list = new ArrayList<>();
+        for (UserSession session : userSession) {
+            boolean b = sendPack(toId, command, data, session);
+            if(b){
+                list.add(new ClientInfo(session.getAppId(),session.getClientType(),session.getImei()));
+            }
         }
+        return list;
     }
-
     /**
      * 发送给所有端
      * @param toId
@@ -104,6 +116,7 @@ public class MessageProducer {
             sendToUser(toId,command,data,appId);
         }
     }
+
 
     /**
      * 发送给指定的某一端

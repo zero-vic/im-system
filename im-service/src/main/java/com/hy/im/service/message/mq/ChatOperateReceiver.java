@@ -5,6 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.hy.im.common.constant.RabbitConstants;
 import com.hy.im.common.enums.command.MessageCommand;
 import com.hy.im.common.model.message.MessageContent;
+import com.hy.im.common.model.message.MessageReadedContent;
+import com.hy.im.common.model.message.MessageReciveAckContent;
+import com.hy.im.service.message.service.MessageSyncService;
 import com.hy.im.service.message.service.P2PMessageService;
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
@@ -36,6 +39,10 @@ public class ChatOperateReceiver {
     @Autowired
     private P2PMessageService p2PMessageService;
 
+
+    @Autowired
+    private MessageSyncService messageSyncService;
+
     /**
      * // 使用 @Payload 和 @Headers 注解可以消息中的 body 与 headers 信息
      */
@@ -61,6 +68,14 @@ public class ChatOperateReceiver {
                 // 单聊消息处理
                 MessageContent messageContent = jsonObject.toJavaObject(MessageContent.class);
                 p2PMessageService.process(messageContent);
+            }else if (command.equals(MessageCommand.MSG_RECIVE_ACK.getCommand())){
+                // 接受消息确认
+                MessageReciveAckContent messageReciveAckContent = jsonObject.toJavaObject(MessageReciveAckContent.class);
+                messageSyncService.receiveMark(messageReciveAckContent);
+            } else if (command.equals(MessageCommand.MSG_READED.getCommand())) {
+                // 已读消息
+                MessageReadedContent messageReadedContent = jsonObject.toJavaObject(MessageReadedContent.class);
+                messageSyncService.readMark(messageReadedContent);
 
             }
 

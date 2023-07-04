@@ -2,14 +2,17 @@ package com.hy.im.service.group.service;
 
 
 import com.hy.im.codec.pack.message.ChatMessageAck;
+import com.hy.im.common.constant.SeqConstants;
 import com.hy.im.common.enums.command.GroupEventCommand;
 import com.hy.im.common.model.ClientInfo;
 import com.hy.im.common.model.message.GroupChatMessageContent;
 import com.hy.im.common.model.message.MessageContent;
+import com.hy.im.common.model.message.OfflineMessageContent;
 import com.hy.im.common.response.ResponseVO;
 import com.hy.im.service.group.model.req.SendGroupMessageReq;
 import com.hy.im.service.message.model.resp.SendMessageResp;
 import com.hy.im.service.message.service.CheckSendMessageService;
+import com.hy.im.service.message.service.MessageStoreService;
 import com.hy.im.service.seq.RedisSeq;
 import com.hy.im.service.util.MessageProducer;
 import org.springframework.beans.BeanUtils;
@@ -33,19 +36,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class GroupMessageService {
 
     @Autowired
-    CheckSendMessageService checkSendMessageService;
+    private CheckSendMessageService checkSendMessageService;
 
     @Autowired
-    MessageProducer messageProducer;
+    private MessageProducer messageProducer;
 
     @Autowired
-    ImGroupMemberService imGroupMemberService;
+    private ImGroupMemberService imGroupMemberService;
 
     @Autowired
-    MessageStoreService messageStoreService;
+    private MessageStoreService messageStoreService;
 
     @Autowired
-    RedisSeq redisSeq;
+    private RedisSeq redisSeq;
 
     private final ThreadPoolExecutor threadPoolExecutor;
 
@@ -82,7 +85,7 @@ public class GroupMessageService {
                 dispatchMessage(messageContent);
             });
         }
-        long seq = redisSeq.doGetSeq(messageContent.getAppId() + ":" + Constants.SeqConstants.GroupMessage
+        long seq = redisSeq.doGetSeq(messageContent.getAppId() + ":" + SeqConstants.GROUP_MESSAGE
                 + messageContent.getGroupId());
         messageContent.setMessageSequence(seq);
             threadPoolExecutor.execute(() ->{

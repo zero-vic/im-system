@@ -5,6 +5,7 @@ import com.hy.im.common.enums.ImUrlRouteWayEnum;
 import com.hy.im.common.enums.RouteHashMethodEnum;
 import com.hy.im.common.route.RouteHandle;
 import com.hy.im.common.route.algorithm.consistenthash.AbstractConsistentHash;
+import com.hy.im.service.util.SnowflakeIdWorker;
 import org.I0Itec.zkclient.ZkClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -59,4 +60,24 @@ public class BeanConfig {
         }
         return routeHandle;
     }
+
+    /**
+     * mybatis plus 分页插件配置
+     * @return
+     */
+    @Bean
+    public EasySqlInjector easySqlInjector () {
+        return new EasySqlInjector();
+    }
+
+    /**
+     * 雪花算法
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public SnowflakeIdWorker buildSnowflakeSeq() throws Exception {
+        return new SnowflakeIdWorker(0);
+    }
+
 }

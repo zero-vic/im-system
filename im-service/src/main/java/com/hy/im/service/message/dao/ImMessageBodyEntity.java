@@ -11,23 +11,37 @@ import lombok.Data;
  */
 @Data
 @TableName("im_message_body")
-public class ImMessageBody {
-
+public class ImMessageBodyEntity {
+    /**
+     * appid
+     */
     private Integer appId;
 
-    /** messageBodyId*/
+    /**
+     * messageBodyId
+     */
     private Long messageKey;
 
-    /** messageBody*/
+    /**
+     *  消息体的内容
+     */
     private String messageBody;
 
     private String securityKey;
-
+    /**
+     * 客户端发送消息的时间
+     */
     private Long messageTime;
-
+    /**
+     * 服务端创建消息的时间
+     */
     private Long createTime;
-
+    /**
+     * 扩展字段
+     */
     private String extra;
-
+    /**
+     * 删除标识
+     */
     private Integer delFlag;
 }

@@ -5,9 +5,11 @@ import com.hy.im.common.model.RequestBase;
 import lombok.Data;
 
 /**
- * @author: Chackylee
- * @description:
- **/
+ * @ClassName SendMessageReq
+ * description: 管理员发送消息的参数
+ * yao create 2023年07月04日
+ * version: 1.0
+ */
 @Data
 public class SendMessageReq extends RequestBase {
 

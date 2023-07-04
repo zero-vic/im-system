@@ -1,17 +1,12 @@
-package com.hy.im.service.message.dao;
+package com.hy.im.message.dao;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-/**
- * @ClassName ImMessageHistory
- * description:
- * yao create 2023年07月03日
- * version: 1.0
- */
+
 @Data
 @TableName("im_message_history")
-public class ImMessageHistory {
+public class ImMessageHistoryEntity {
 
     private Integer appId;
 
@@ -31,4 +26,5 @@ public class ImMessageHistory {
     private Long messageTime;
 
     private Long createTime;
+
 }
