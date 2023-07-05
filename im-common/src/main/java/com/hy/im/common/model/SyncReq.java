@@ -2,6 +2,9 @@ package com.hy.im.common.model;
 
 import lombok.Data;
 
+/**
+ * 增量同步请求体
+ */
 @Data
 public class SyncReq extends RequestBase {
 

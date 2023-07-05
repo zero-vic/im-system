@@ -56,10 +56,10 @@ public class ImUserStatusServiceImpl implements ImUserStatusService {
         UserStatusChangeNotifyPack userStatusChangeNotifyPack = new UserStatusChangeNotifyPack();
         BeanUtils.copyProperties(content,userStatusChangeNotifyPack);
         userStatusChangeNotifyPack.setClient(userSession);
-
+        // 发送给自己的同步端
         syncSender(userStatusChangeNotifyPack,content.getUserId(),
                 content);
-
+        // 同步给好友和订阅了自己的人
         dispatcher(userStatusChangeNotifyPack,content.getUserId(),
                 content.getAppId());
     }

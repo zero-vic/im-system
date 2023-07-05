@@ -7,6 +7,7 @@ import com.hy.im.common.exception.ApplicationExceptionEnum;
 import com.hy.im.common.response.ResponseVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import java.io.PrintWriter;
  * yao create 2023年07月03日
  * version: 1.0
  */
+@Component
 public class GateWayInterceptor implements HandlerInterceptor {
 
     @Autowired

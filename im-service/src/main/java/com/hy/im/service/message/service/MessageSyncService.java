@@ -134,6 +134,7 @@ public class MessageSyncService {
         //获取最大的seq
         Long maxSeq = 0L;
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
+        // 获取最大的score
         Set set = zSetOperations.reverseRangeWithScores(key, 0, 0);
         if(!CollectionUtils.isEmpty(set)){
             List list = new ArrayList(set);
@@ -173,7 +174,7 @@ public class MessageSyncService {
 
         RecallMessageNotifyPack pack = new RecallMessageNotifyPack();
         BeanUtils.copyProperties(content,pack);
-
+        // 超时的消息不能撤回
         if(120000L < now - messageTime){
             recallAck(pack,ResponseVO.errorResponse(MessageErrorCode.MESSAGE_RECALL_TIME_OUT),content);
             return;
@@ -185,20 +186,20 @@ public class MessageSyncService {
         ImMessageBodyEntity body = imMessageBodyMapper.selectOne(query);
 
         if(body == null){
-            //TODO ack失败 不存在的消息不能撤回
+            // ack失败 不存在的消息不能撤回
             recallAck(pack,ResponseVO.errorResponse(MessageErrorCode.MESSAGEBODY_IS_NOT_EXIST),content);
             return;
         }
-
+        // 已经撤回的消息不能撤回
         if(body.getDelFlag() == DelFlagEnum.DELETE.getCode()){
             recallAck(pack,ResponseVO.errorResponse(MessageErrorCode.MESSAGE_IS_RECALLED),content);
 
             return;
         }
-
+        // 修改历史消息状态
         body.setDelFlag(DelFlagEnum.DELETE.getCode());
         imMessageBodyMapper.update(body,query);
-
+        // 修改离线消息状态
         if(content.getConversationType() == ConversationTypeEnum.P2P.getCode()){
 
             // 找到fromId的队列

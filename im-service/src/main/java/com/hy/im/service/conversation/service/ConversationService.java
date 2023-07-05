@@ -28,9 +28,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description:
- * @author: lld
- * @version: 1.0
+ * @ClassName ConversationService
+ * description: 会话服务
+ * yao create 2023年07月05日
+ * version: 1.0
  */
 @Service
 public class ConversationService {

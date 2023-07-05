@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class IdentityCheck {
     private final static Logger log = LoggerFactory.getLogger(IdentityCheck.class);
-
+    // todo sign校验改造14-1
 
     // todo 使用单独的表存放每个appid 的 privatekey
     @Autowired

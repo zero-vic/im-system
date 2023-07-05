@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.hy.im.codec.pack.LoginPack;
 import com.hy.im.codec.pack.message.ChatMessageAck;
+import com.hy.im.codec.pack.user.LoginAckPack;
+import com.hy.im.codec.pack.user.UserStatusChangeNotifyPack;
 import com.hy.im.codec.proto.Message;
 import com.hy.im.codec.proto.MessagePack;
 import com.hy.im.common.constant.Constants;
@@ -13,6 +15,7 @@ import com.hy.im.common.enums.ImConnectStatusEnum;
 import com.hy.im.common.enums.command.GroupEventCommand;
 import com.hy.im.common.enums.command.MessageCommand;
 import com.hy.im.common.enums.command.SystemCommand;
+import com.hy.im.common.enums.command.UserEventCommand;
 import com.hy.im.common.model.UserClientDto;
 import com.hy.im.common.model.UserSession;
 import com.hy.im.common.model.message.CheckSendMessageReq;
@@ -101,6 +104,10 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
             String userSessionKey = appId + RedisConstants.USER_SESSION_CONSTANTS + userId;
             RMap<String, String> map = redissonClient.getMap(userSessionKey);
             map.put(clientType+":" + imei, JSONObject.toJSONString(userSession));
+
+            // 存channel
+            SessionSocketHolder.put(appId,userId,clientType, (NioSocketChannel) ctx.channel(),imei);
+
             // 使用redis的发布订阅模式来通知用户上线, 实现多端登陆
             UserClientDto dto = new UserClientDto();
             dto.setAppId(appId);
@@ -109,15 +116,30 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
             dto.setImei(imei);
             RTopic topic = redissonClient.getTopic(RedisConstants.USER_LOGIN_CHANNEL);
             topic.publish(JSON.toJSONString(dto));
+            //  状态变更发送给逻辑层
+            UserStatusChangeNotifyPack userStatusChangeNotifyPack = new UserStatusChangeNotifyPack();
+            userStatusChangeNotifyPack.setAppId(msg.getMessageHeader().getAppId());
+            userStatusChangeNotifyPack.setUserId(loginPack.getUserId());
+            userStatusChangeNotifyPack.setStatus(ImConnectStatusEnum.ONLINE_STATUS.getCode());
+            MqMessageProducer.sendMessage(userStatusChangeNotifyPack,msg.getMessageHeader(), UserEventCommand.USER_ONLINE_STATUS_CHANGE.getCommand());
 
+            // todo 回复ack给登录方
+            MessagePack<LoginAckPack> loginSuccess = new MessagePack<>();
+            LoginAckPack loginAckPack = new LoginAckPack();
+            loginAckPack.setUserId(loginPack.getUserId());
+            loginSuccess.setCommand(SystemCommand.LOGIN_ACK.getCommand());
+            loginSuccess.setData(loginAckPack);
+            loginSuccess.setImei(msg.getMessageHeader().getImei());
+            loginSuccess.setAppId(msg.getMessageHeader().getAppId());
+            ctx.channel().writeAndFlush(loginSuccess);
 
-            // 存channel
-            SessionSocketHolder.put(appId,userId,clientType, (NioSocketChannel) ctx.channel(),imei);
 
         } else if (command == SystemCommand.LOGOUT.getCommand()) {
             // 登出
             // 删除usersession 删除redis
             SessionSocketHolder.removeUserSession((NioSocketChannel) ctx.channel());
+            // todo   通知逻辑层已下线
+
         } else if (command == SystemCommand.PING.getCommand()) {
             // 心跳检测 处理
             // 添加读取时间

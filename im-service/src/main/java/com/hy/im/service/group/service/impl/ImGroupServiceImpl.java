@@ -4,7 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.hy.im.codec.pack.group.CreateGroupPack;
+import com.hy.im.codec.pack.group.DestroyGroupPack;
+import com.hy.im.codec.pack.group.UpdateGroupInfoPack;
 import com.hy.im.common.config.AppConfig;
+import com.hy.im.common.constant.CallbackCommand;
+import com.hy.im.common.constant.SeqConstants;
 import com.hy.im.common.enums.GroupErrorCode;
 import com.hy.im.common.enums.GroupMemberRoleEnum;
 import com.hy.im.common.enums.GroupStatusEnum;
@@ -13,6 +18,7 @@ import com.hy.im.common.enums.command.GroupEventCommand;
 import com.hy.im.common.exception.ApplicationException;
 import com.hy.im.common.model.ClientInfo;
 import com.hy.im.common.model.SyncReq;
+import com.hy.im.common.model.SyncResp;
 import com.hy.im.common.response.ResponseVO;
 import com.hy.im.service.group.dao.ImGroupEntity;
 import com.hy.im.service.group.dao.mapper.ImGroupMapper;
@@ -23,6 +29,7 @@ import com.hy.im.service.group.model.resp.GetJoinedGroupResp;
 import com.hy.im.service.group.model.resp.GetRoleInGroupResp;
 import com.hy.im.service.group.service.ImGroupMemberService;
 import com.hy.im.service.group.service.ImGroupService;
+import com.hy.im.service.seq.RedisSeq;
 import com.hy.im.service.util.CallbackService;
 import com.hy.im.service.util.GroupMessageProducer;
 import org.apache.commons.lang3.StringUtils;
@@ -128,7 +135,7 @@ public class ImGroupServiceImpl implements ImGroupService {
         }
 
         ImGroupEntity imGroupEntity = new ImGroupEntity();
-        long seq = redisSeq.doGetSeq(req.getAppId() + ":" + Constants.SeqConstants.Group);
+        long seq = redisSeq.doGetSeq(req.getAppId() + ":" + SeqConstants.GROUP);
         imGroupEntity.setSequence(seq);
         imGroupEntity.setCreateTime(System.currentTimeMillis());
         imGroupEntity.setStatus(GroupStatusEnum.NORMAL.getCode());
@@ -147,7 +154,7 @@ public class ImGroupServiceImpl implements ImGroupService {
         }
 
         if(appConfig.isCreateGroupAfterCallback()){
-            callbackService.callback(req.getAppId(), Constants.CallbackCommand.CreateGroupAfter,
+            callbackService.callback(req.getAppId(), CallbackCommand.CREATE_GROUP_AFTER,
                     JSONObject.toJSONString(imGroupEntity));
         }
 
@@ -159,7 +166,7 @@ public class ImGroupServiceImpl implements ImGroupService {
     }
 
     /**
-     * @param [req]
+     * @param req
      * @return com.lld.im.common.ResponseVO
      * @description 修改群基础信息，如果是后台管理员调用，则不检查权限，如果不是则检查权限，如果是私有群（微信群）任何人都可以修改资料，公开群只有管理员可以修改
      * 如果是群主或者管理员可以修改其他信息。
@@ -205,7 +212,7 @@ public class ImGroupServiceImpl implements ImGroupService {
         }
 
         ImGroupEntity update = new ImGroupEntity();
-        long seq = redisSeq.doGetSeq(req.getAppId() + ":" + Constants.SeqConstants.Group);
+        long seq = redisSeq.doGetSeq(req.getAppId() + ":" + SeqConstants.GROUP);
         BeanUtils.copyProperties(req, update);
         update.setUpdateTime(System.currentTimeMillis());
         update.setSequence(seq);
@@ -215,7 +222,7 @@ public class ImGroupServiceImpl implements ImGroupService {
         }
 
         if(appConfig.isModifyGroupAfterCallback()){
-            callbackService.callback(req.getAppId(),Constants.CallbackCommand.UpdateGroupAfter,
+            callbackService.callback(req.getAppId(),CallbackCommand.UPDATE_GROUP_AFTER,
                     JSONObject.toJSONString(imGroupDataMapper.selectOne(query)));
         }
 
@@ -229,7 +236,7 @@ public class ImGroupServiceImpl implements ImGroupService {
     }
 
     /**
-     * @param [req]
+     * @param req
      * @return com.lld.im.common.ResponseVO
      * @description 获取用户加入的群组
      * @author chackylee
@@ -271,7 +278,7 @@ public class ImGroupServiceImpl implements ImGroupService {
 
 
     /**
-     * @param [req]
+     * @param req
      * @return com.lld.im.common.ResponseVO
      * @description 解散群组，只支持后台管理员和群主解散
      * @author chackylee
@@ -306,7 +313,7 @@ public class ImGroupServiceImpl implements ImGroupService {
         }
 
         ImGroupEntity update = new ImGroupEntity();
-        long seq = redisSeq.doGetSeq(req.getAppId() + ":" + Constants.SeqConstants.Group);
+        long seq = redisSeq.doGetSeq(req.getAppId() + ":" + SeqConstants.GROUP);
 
         update.setStatus(GroupStatusEnum.DESTROY.getCode());
         update.setSequence(seq);
@@ -319,7 +326,7 @@ public class ImGroupServiceImpl implements ImGroupService {
             DestroyGroupCallbackDto dto = new DestroyGroupCallbackDto();
             dto.setGroupId(req.getGroupId());
             callbackService.callback(req.getAppId()
-                    ,Constants.CallbackCommand.DestoryGroupAfter,
+                    ,CallbackCommand.DESTORY_GROUP_AFTER,
                     JSONObject.toJSONString(dto));
         }
 

@@ -27,6 +27,9 @@ public class CallbackService {
     @Autowired
     private AppConfig appConfig;
 
+    @Autowired
+    private ShareThreadPool shareThreadPool;
+
     /**
      * 回调
      * @param appId
@@ -34,12 +37,16 @@ public class CallbackService {
      * @param jsonBody
      */
     public void callback(Integer appId,String callbackCommand,String jsonBody){
-        try{
-            // todo callbackurl 后续设计一张表存储 目前使用配置文件的方式实现
-            httpRequestUtils.doPost(appConfig.getCallbackUrl(),Object.class,builderUrlParams(appId,callbackCommand),jsonBody,null);
-        }catch (Exception e){
-            log.error("callback 回调{} : {}出现异常 ： {} ",callbackCommand , appId, e.getMessage());
-        }
+
+        shareThreadPool.submit(() ->{
+            try{
+                // todo callbackurl 后续设计一张表存储 目前使用配置文件的方式实现
+                httpRequestUtils.doPost(appConfig.getCallbackUrl(),Object.class,builderUrlParams(appId,callbackCommand),jsonBody,null);
+            }catch (Exception e){
+                log.error("callback 回调{} : {}出现异常 ： {} ",callbackCommand , appId, e.getMessage());
+            }
+        });
+
     }
 
     /**

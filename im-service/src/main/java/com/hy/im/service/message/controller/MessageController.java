@@ -4,6 +4,7 @@ import com.hy.im.common.model.SyncReq;
 import com.hy.im.common.model.message.CheckSendMessageReq;
 import com.hy.im.common.response.ResponseVO;
 import com.hy.im.service.message.model.req.SendMessageReq;
+import com.hy.im.service.message.service.MessageSyncService;
 import com.hy.im.service.message.service.P2PMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -49,6 +50,12 @@ public class MessageController {
                 ,req.getAppId());
     }
 
+    /**
+     * 同步离线消息
+     * @param req
+     * @param appId
+     * @return
+     */
     @RequestMapping("/syncOfflineMessage")
     public ResponseVO syncOfflineMessage(@RequestBody
                                          @Validated SyncReq req, Integer appId)  {

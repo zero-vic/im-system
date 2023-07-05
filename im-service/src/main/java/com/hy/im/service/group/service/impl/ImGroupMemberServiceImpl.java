@@ -6,7 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hy.im.codec.pack.group.AddGroupMemberPack;
+import com.hy.im.codec.pack.group.GroupMemberSpeakPack;
+import com.hy.im.codec.pack.group.RemoveGroupMemberPack;
+import com.hy.im.codec.pack.group.UpdateGroupMemberPack;
 import com.hy.im.common.config.AppConfig;
+import com.hy.im.common.constant.CallbackCommand;
 import com.hy.im.common.enums.GroupErrorCode;
 import com.hy.im.common.enums.GroupMemberRoleEnum;
 import com.hy.im.common.enums.GroupStatusEnum;
@@ -24,6 +29,8 @@ import com.hy.im.service.group.model.resp.AddMemberResp;
 import com.hy.im.service.group.model.resp.GetRoleInGroupResp;
 import com.hy.im.service.group.service.ImGroupMemberService;
 import com.hy.im.service.group.service.ImGroupService;
+import com.hy.im.service.user.dao.ImUserDataEntity;
+import com.hy.im.service.user.service.ImUserService;
 import com.hy.im.service.util.CallbackService;
 import com.hy.im.service.util.GroupMessageProducer;
 import lombok.extern.slf4j.Slf4j;
@@ -189,7 +196,7 @@ public class ImGroupMemberServiceImpl implements ImGroupMemberService {
     }
 
     /**
-     * @param [groupId, memberId, appId]
+     * @param groupId, memberId, appId
      * @return com.lld.im.common.ResponseVO<com.lld.im.service.group.model.resp.GetRoleInGroupResp>
      * @description 查询用户在群内的角色
      * @author chackylee
@@ -259,7 +266,7 @@ public class ImGroupMemberServiceImpl implements ImGroupMemberService {
         List<GroupMemberDto> memberDtos = req.getMembers();
         if(appConfig.isAddGroupMemberBeforeCallback()){
 
-            ResponseVO responseVO = callbackService.beforeCallback(req.getAppId(), Constants.CallbackCommand.GroupMemberAddBefore
+            ResponseVO responseVO = callbackService.beforeCallback(req.getAppId(), CallbackCommand.GROUP_MEMBER_ADD_BEFORE
                     , JSONObject.toJSONString(req));
             if(!responseVO.isOk()){
                 return responseVO;
@@ -326,7 +333,7 @@ public class ImGroupMemberServiceImpl implements ImGroupMemberService {
             dto.setMemberId(resp);
             dto.setOperater(req.getOperater());
             callbackService.callback(req.getAppId()
-                    ,Constants.CallbackCommand.GroupMemberAddAfter,
+                    , CallbackCommand.GROUP_MEMBER_ADD_AFTER,
                     JSONObject.toJSONString(dto));
         }
 
@@ -398,7 +405,7 @@ public class ImGroupMemberServiceImpl implements ImGroupMemberService {
                     , new ClientInfo(req.getAppId(), req.getClientType(), req.getImei()));
             if(appConfig.isDeleteGroupMemberAfterCallback()){
                 callbackService.callback(req.getAppId(),
-                        Constants.CallbackCommand.GroupMemberDeleteAfter,
+                        CallbackCommand.GROUP_MEMBER_DELETE_AFTER,
                         JSONObject.toJSONString(req));
             }
         }

@@ -14,6 +14,8 @@ import com.hy.im.service.friendship.model.req.AddFriendShipGroupMemberReq;
 import com.hy.im.service.friendship.model.req.DeleteFriendShipGroupMemberReq;
 import com.hy.im.service.friendship.service.ImFriendShipGroupMemberService;
 import com.hy.im.service.friendship.service.ImFriendShipGroupService;
+import com.hy.im.service.user.dao.ImUserDataEntity;
+import com.hy.im.service.user.service.ImUserService;
 import com.hy.im.service.util.MessageProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
