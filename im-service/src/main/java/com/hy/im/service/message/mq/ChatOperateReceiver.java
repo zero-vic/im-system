@@ -60,6 +60,7 @@ public class ChatOperateReceiver {
                               Channel channel) throws Exception {
 
         String msg = new String(message.getBody(),"utf-8");
+        log.info("IM服务发送给逻辑层的消息处理! queue：{},msg:{}",RabbitConstants.IM_2_MESSAGE_SERVICE,msg);
         log.info("CHAT MSG FORM QUEUE ::: {}", msg);
         Long deliveryTag = (Long) headers.get(AmqpHeaders.DELIVERY_TAG);
 
@@ -68,10 +69,12 @@ public class ChatOperateReceiver {
             Integer command = jsonObject.getInteger("command");
             if(command.equals(MessageCommand.MSG_P2P.getCommand())){
                 // 单聊消息处理
+                log.info("单聊消息处理");
                 MessageContent messageContent = jsonObject.toJavaObject(MessageContent.class);
                 p2PMessageService.process(messageContent);
             }else if (command.equals(MessageCommand.MSG_RECIVE_ACK.getCommand())){
                 // 接受消息确认
+                log.info("消息收到ack");
                 MessageReciveAckContent messageReciveAckContent = jsonObject.toJavaObject(MessageReciveAckContent.class);
                 messageSyncService.receiveMark(messageReciveAckContent);
             } else if (command.equals(MessageCommand.MSG_READED.getCommand())) {
@@ -84,7 +87,6 @@ public class ChatOperateReceiver {
                 RecallMessageContent messageContent = JSON.parseObject(msg, new TypeReference<RecallMessageContent>() {
                 }.getType());
                 messageSyncService.recallMessage(messageContent);
-
             }
 
             channel.basicAck(deliveryTag,false);

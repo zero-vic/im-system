@@ -156,11 +156,16 @@ public class P2PMessageService {
             offlineMessageContent.setConversationType(ConversationTypeEnum.P2P.getCode());
             messageStoreService.storeOfflineMessage(offlineMessageContent);
             //1.回ack成功给自己
+            log.info("回ack 成功给自己");
             ack(messageContent,ResponseVO.successResponse());
             //2.发消息给同步在线端
+            log.info("发消息给自己的同步在线端");
             syncToSender(messageContent,messageContent);
             //3.发消息给对方在线端
+            log.info("开始发消息给对方的在线端");
+            log.info("messageContent:{}",messageContent.toString());
             List<ClientInfo> clientInfos = dispatchMessage(messageContent);
+            log.info("完成发消息给对方的在线端");
             messageStoreService.setMessageFromMessageIdCache(messageContent.getAppId(),
                     messageContent.getMessageId(),messageContent);
             if(CollectionUtils.isEmpty(clientInfos)){

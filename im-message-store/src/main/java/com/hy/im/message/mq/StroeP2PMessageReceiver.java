@@ -44,7 +44,9 @@ public class StroeP2PMessageReceiver {
                               @Headers Map<String,Object> headers,
                               Channel channel) throws Exception {
         String msg = new String(message.getBody(),"utf-8");
-        logger.info("CHAT MSG FORM QUEUE ::: {}", msg);
+        logger.debug("chat msg persistence---------");
+        logger.debug("msg consumed queue: {},msg:{}",RabbitConstants.STOREP_2_PMESSAGE,msg);
+//        logger.info("CHAT MSG FORM QUEUE ::: {}", msg);
         Long deliveryTag = (Long) headers.get(AmqpHeaders.DELIVERY_TAG);
         try {
             JSONObject jsonObject = JSON.parseObject(msg);

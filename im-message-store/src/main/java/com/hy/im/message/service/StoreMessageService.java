@@ -33,7 +33,7 @@ public class StoreMessageService {
 
 
     @Transactional
-    public void doStoreP2PMessage(DoStoreP2PMessageDto doStoreP2PMessageDto){
+    public void  doStoreP2PMessage(DoStoreP2PMessageDto doStoreP2PMessageDto){
         imMessageBodyMapper.insert(doStoreP2PMessageDto.getImMessageBodyEntity());
         List<ImMessageHistoryEntity> imMessageHistoryEntities = extractToP2PMessageHistory(doStoreP2PMessageDto.getMessageContent(), doStoreP2PMessageDto.getImMessageBodyEntity());
         imMessageHistoryMapper.insertBatchSomeColumn(imMessageHistoryEntities);

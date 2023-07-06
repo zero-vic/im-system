@@ -44,7 +44,8 @@ public class MessageProducer {
     public boolean sendMessage(UserSession session,Object msg){
         try{
             log.info("send message == {}",msg);
-            rabbitTemplate.convertAndSend(RabbitConstants.MESSAGE_SERVICE_2_IM,session.getBrokerId()+"",msg);
+//            rabbitTemplate.convertAndSend(RabbitConstants.MESSAGE_SERVICE_2_IM,session.getBrokerId()+"",msg);
+            rabbitTemplate.convertAndSend(RabbitConstants.MESSAGE_SERVICE_2_IM+session.getBrokerId(),session.getBrokerId()+"",msg);
             return true;
         }catch (Exception e){
             log.error("send msg error : {}",e.getMessage());

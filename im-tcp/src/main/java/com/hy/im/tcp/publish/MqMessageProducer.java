@@ -17,7 +17,7 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * @ClassName MqMessageProducer
- * description: mq 消息 生产类
+ * description: mq 消息 生产类 (给用户发消息)
  * yao create 2023年06月29日
  * version: 1.0
  */
@@ -27,7 +27,7 @@ public class MqMessageProducer {
         Channel channel = null;
         String commandStr = command.toString();
         String commandSub = commandStr.substring(0, 1);
-        CommandType commandType = CommandType.getCommandType(commandStr);
+        CommandType commandType = CommandType.getCommandType(commandSub);
         String channelName = "";
         if(commandType == CommandType.MESSAGE){
             channelName = RabbitConstants.IM_2_MESSAGE_SERVICE;

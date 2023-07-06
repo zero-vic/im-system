@@ -1,6 +1,7 @@
 package com.hy.im.tcp;
 
 import com.hy.im.codec.config.BootstrapConfig;
+import com.hy.im.tcp.reciver.MessageReceiver;
 import com.hy.im.tcp.redis.RedisManager;
 import com.hy.im.tcp.register.RegistryZK;
 import com.hy.im.tcp.register.ZKit;
@@ -55,6 +56,7 @@ public class Starter {
             RedisManager.init(bootstrapConfig);
             // 初始化rabbitmq
             MqFactory.init(bootstrapConfig.getIm().getRabbitmq());
+            MessageReceiver.init(bootstrapConfig.getIm().getBrokerId().toString());
             // 初始化zookeeper
             registerZk(bootstrapConfig);
 

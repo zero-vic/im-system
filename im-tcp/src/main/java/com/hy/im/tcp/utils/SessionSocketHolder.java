@@ -97,7 +97,7 @@ public class SessionSocketHolder {
         String key = appId + RedisConstants.USER_SESSION_CONSTANTS + userId;
         RMap<Object, Object> map = redissonClient.getMap(key);
         map.remove(clientType+":"+imei);
-        //通知逻辑层下线通知
+        // 通知逻辑层下线通知
         MessageHeader messageHeader = new MessageHeader();
         messageHeader.setAppId(appId);
         messageHeader.setImei(imei);

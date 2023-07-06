@@ -138,7 +138,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
             // 登出
             // 删除usersession 删除redis
             SessionSocketHolder.removeUserSession((NioSocketChannel) ctx.channel());
-            // todo   通知逻辑层已下线
+            //   通知逻辑层已下线
 
         } else if (command == SystemCommand.PING.getCommand()) {
             // 心跳检测 处理
@@ -155,6 +155,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
                 String fromId = jsonObject.getString("fromId");
                 if(command == MessageCommand.MSG_P2P.getCommand()){
                     toId = jsonObject.getString("toId");
+                    log.info("单聊消息 toId:{},formId:{},msg:{}",toId,fromId,jsonObject.toJSONString());
                 }else {
                     toId = jsonObject.getString("groupId");
                 }
@@ -163,6 +164,8 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<Message> {
 
                 ResponseVO responseVO = feignMessageService.checkSendMessage(req);
                 if(responseVO.isOk()){
+                    log.info("消息前置校验成功,开始给用户发送消息");
+                    log.info("msg：{},command:{}",msg,command);
                     MqMessageProducer.sendMessage(msg,command);
                 }else {
                     // 返回ack
